@@ -1,7 +1,6 @@
 const todoFormEl = document.querySelector('#todo-form')
 const todoInputEl = document.querySelector('#todo-form input')
 const todoListEl = document.querySelector('#todo-list')
-
 const TODOS_KEY = "Todos"
 
 let toDos = []
