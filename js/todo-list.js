@@ -6,7 +6,11 @@ const TODOS_KEY = "Todos"
 
 let toDos = []
 
-const saveTodos = localStorage.getItem(TODOS_KEY)
+const getTodos = localStorage.getItem(TODOS_KEY)
+
+function saveTodos() {
+  localStorage.setItem(TODOS_KEY, JSON.stringify(toDos))
+}
 
 todoFormEl.onsubmit = (event) => {
   event.preventDefault()
@@ -17,15 +21,15 @@ todoFormEl.onsubmit = (event) => {
     id: Date.now()
   }
   toDos.push(newTodoObject)
-  localStorage.setItem(TODOS_KEY, JSON.stringify(toDos))
+  saveTodos()
   paintTodo(newTodoObject)
 }
 
 function deleteTodo(event) {
   const li = event.target.parentElement
   li.remove()
-  toDos = toDos.filter((todo) => todo.id != parseInt(li.id))
-  localStorage.setItem(TODOS_KEY, JSON.stringify(toDos))
+  toDos = toDos.filter((todo) => todo.id !== parseInt(li.id))
+  saveTodos()
 }
 
 function paintTodo(todos) {
@@ -33,16 +37,18 @@ function paintTodo(todos) {
   li.id = todos.id
   const span = document.createElement("span")
   const deleteBtn = document.createElement("button")
-  li.appendChild(span)
-  todoListEl.appendChild(li)
-  li.appendChild(deleteBtn)
   span.innerText = `- ${todos.text}`
   deleteBtn.innerText = "X"
+
   deleteBtn.addEventListener("click", deleteTodo)
+
+  li.appendChild(span)
+  li.appendChild(deleteBtn)
+  todoListEl.appendChild(li)
 }
 
-if(saveTodos) {
-  const parseToDos = JSON.parse(saveTodos)
-  toDos.push(parseToDos)
+if(getTodos !== null) {
+  const parseToDos = JSON.parse(getTodos)
+  toDos = [...parseToDos]
   parseToDos.forEach(paintTodo)
 }
