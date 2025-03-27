@@ -36,7 +36,7 @@ function paintTodo(todos) {
   li.id = todos.id
   const span = document.createElement("span")
   const deleteBtn = document.createElement("button")
-  span.innerText = `- ${todo.text}`
+  span.innerText = `- ${todos.text}`
   deleteBtn.innerText = "X"
 
   deleteBtn.addEventListener("click", deleteTodo)
